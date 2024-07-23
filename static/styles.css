@@ -1,0 +1,212 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    background-size:contain;
+    background-position: center;
+    background: url("/static/images/saving.jpg") no-repeat center center;
+    background-size: cover;
+    display:flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: #53840f;
+    color: #f4f4f4;
+    padding: 10px;
+    text-align: center;
+    height: 30px;
+    border-radius:0 0 10px 10px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -1%;
+
+}
+
+nav .logo {
+    width: 50px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 80px;
+}
+
+nav a:hover {
+    background-color: #d9d618;
+    border-radius: 8px;
+    align-items: left;
+
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+h1 {
+    color: #333;
+}
+
+form input, form select, form textarea {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.form-group input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+form button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #dfcd72;
+    border-radius: 8px;
+    margin-bottom: 10%;
+}
+
+button {
+    background-color: #bfcb68;
+    color: #070404;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e1864;
+    border-radius: 8px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: red;
+}
+.container {
+    width: 50%;
+    max-width: 1200px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 30%;
+    background-size: cover;
+    justify-content: center;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 100px;
+    margin-right: -5px;
+}
+
+.logo-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #f8f8f7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+}
+
+.progress-fill {
+    background-color: #76c7c0;
+    height: 20px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+}
+.error-page h1 {
+    font-size: 3rem;
+    color: #dc3545;
+}
+
+.error-page p {
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.error-page a {
+    font-size: 1rem;
+    color: #007bff;
+}
+
+.error-page a:hover {
+    text-decoration: underline;
+}

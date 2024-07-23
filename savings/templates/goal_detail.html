@@ -1,0 +1,22 @@
+<!-- goal_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}Goal Details{% endblock %}
+
+{% block content %}
+<h1>{{ goal.name }}</h1>
+<p>Target Amount: ${{ goal.target_amount|floatformat:2 }}</p>
+<p>Total Contributed: ${{ goal.total_contributed|floatformat:2 }}</p>
+<p>Remaining Amount: ${{ goal.remaining_amount|floatformat:2 }}</p>
+<p>Target Date: {{ goal.target_date }}</p>
+<p>Description: {{ goal.description }}</p>
+
+<h2>Contribute to this Goal</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Contribute</button>
+</form>
+
+<a href="{% url 'progress' %}">Back to Goals</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+<h1>Contribute to {{ goal.name }}</h1> 
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Contribution</button>
+</form>
+<a href="{% url 'home' %}" class="back-button">Back to Home</a>
+
+{% endblock %}
