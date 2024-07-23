@@ -1,10 +1,16 @@
 # Software-Engineering-Chhallenge
 
-# SaveSmart (Wallet)
+# SaveSmart(Wallet)
 
 ## Description
+SaveSmart is a web application designed to help users manage and optimize their savings goals. 
 
-A brief description of what your project does.
+## Setup
+
+### Prerequisites
+- Python 3.12
+- Django
+- PostgreSQL
 
 ## Installation
 
