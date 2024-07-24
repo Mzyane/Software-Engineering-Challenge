@@ -41,45 +41,37 @@ SaveSmart is a web application designed to help users manage and optimize their 
      http://127.0.0.1:8000/
 
 
-## Savings Insights Algorithm
+## Algorithm for Improving Savings Behavior
 
-## Assumptions
+### Assumptions
 
-1. Data Availability:
-   - The Contribution model is populated with data that includes contributions from users towards various savings goals.
-   - Each Contribution entry includes fields such as user, goal, amount, and date.
-  
-2. Goal Information:
-   - The SavingsGoal model contains information about each savings goal, including target_amount and target_date.
+- Users input their income, expenses, and savings accurately.
+- Users update their financial data regularly.
 
-3. Application Environment:
-   - The algorithm is intended to run as a custom Django management command.
-   - The django package and its dependencies are correctly installed and configured in the environment.
+### Overall Structure
 
-## Algorithm Overview
-   The algorithm aims to provide users with detailed insights and recommendations on their savings behavior. It is implemented in a Django management command located in          savings/management/commands/generate_insights.py. Here's a breakdown of the logic:
+1. **Data Collection**: The application collects data on the user's income, expenses, and savings.
+2. **Analysis**: The collected data is analyzed to identify spending patterns and deviations from the user's saving goals.
+3. **Feedback Generation**: Based on the analysis, the application provides detailed insights and tips to help the user improve their savings behavior.
 
-   1. Fetch All Savings Goals:
-   - Retrieve all savings goals from the SavingsGoal model.
+### Logic
 
-   2. Calculate Total Contributions:
-   - For each savings goal, aggregate the total contributions made by users using the Contribution model.
+1. **Calculate Averages**: Compute the average monthly income and expenses based on user data.
+2. **Identify High-Expense Categories**: Determine which expense categories have the highest spending.
+3. **Compare Savings**: Compare the user's actual savings to their target savings.
+4. **Generate Insights**: Provide insights into spending behavior. For example, "You spend 20% more on dining out than planned."
+5. **Provide Tips**: Offer actionable tips to improve savings. For example, "Consider reducing dining out expenses by 10% to increase savings."
 
-   3. Calculate Average Contributions:
-   - Compute the average contribution amount for each goal.
+### For Example
 
-   4. Determine Progress:
-   - Calculate the percentage of progress towards the target amount for each goal.
+If the user spends significantly more on entertainment than budgeted, the algorithm might suggest:
 
-   5. Generate Recommendations:
-   - Compare user progress with benchmarks and generate recommendations. For example:
-      - If progress is less than 50%, recommend increasing monthly contributions.
-      - If progress is between 50% and 80%, encourage maintaining the current savings rate.
-      - If progress exceeds 80%, suggest setting a new goal or increasing the target amount.
+- "Reduce entertainment expenses by 15%."
+- "Consider free or low-cost entertainment options."
 
-   6. Output Insights:
-   - Format the results into a readable format and print them to the console.
+## How to Use
 
-   7. Running the Command
-   - Execute the insights generation command, use the following command in the terminal:
-     python manage.py generate_insights
+1. **Setup**: Follow the installation instructions to set up the web application.
+2. **Input Data**: Enter your income, expenses, and savings in the respective fields.
+3. **View Insights**: Navigate to the insights page by clicking view financial insights on progress page to see personalized recommendations and tips.
+4. **Update Regularly**: Keep your data up-to-date to receive accurate feedback and improve your savings behavior.
