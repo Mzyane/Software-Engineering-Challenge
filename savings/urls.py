@@ -15,7 +15,6 @@ urlpatterns = [
     path('update-goal/<int:pk>/', views.update_goal, name='update_goal'),
     path('delete-goal/<int:pk>/', views.delete_goal, name='delete_goal'),
     path('success/', views.success, name='success'),
-
-
-
+    path('input/', views.input_financial_data, name='input_financial_data'),
+    path('financial-insights/', views.financial_insights, name='financial_insights'),
 ]

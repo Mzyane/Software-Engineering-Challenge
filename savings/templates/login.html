@@ -1,12 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% load static %}
+{% block title %}Track Progress{% endblock %}
+
 {% block content %}
-<h1>Login</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-<a href="{% url 'register' %}" class="back-button">Register</a>
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="insightsModal" class="modal" style="display: block;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Insights</h2>
+        <p>Your detailed insights and tips here.</p>
+    </div>
+</div>
+
+
+    <!-- Include JavaScript for modal functionality -->
+    <script src="{% static 'js/modal.js' %}"></script>
+</body>
+</html>
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Financial Insights</h1>
+<h2>Insights</h2>
+<ul>
+    <li>Average Income: {{ insights.average_income }}</li>
+    <li>Average Expenses: {{ insights.average_expenses }}</li>
+    <li>Average Savings: {{ insights.average_savings }}</li>
+    <li>Savings Comparison: {{ insights.savings_comparison }}</li>
+</ul>
+
+<h2>Tips</h2>
+<ul>
+    {% for tip in tips %}
+        <li>{{ tip }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'input_financial_data' %}">Enter New Data</a>
+{% endblock %}

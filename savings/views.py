@@ -9,6 +9,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import Contribution, SavingsGoal
 import datetime
 from django.conf import settings
+from .forms import FinancialDataForm
+from .models import FinancialData
+from .analyzer import SavingsBehaviorAnalyzer
+from .models import UserProfile
+from .forms import FinancialDataForm
 
 
 def home(request):
@@ -19,9 +24,12 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            profile = UserProfile.objects.get(user=user)
+            profile.income = form.cleaned_data['income']
+            profile.expenses = form.cleaned_data['expenses']
+            profile.save()
             login(request, user)
-            messages.success(request, 'Registration successful! You are now logged in.')
-            return redirect('create_goal')
+            return redirect('home')
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -32,11 +40,14 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            request.session['show_modal'] = True
             next_url = request.GET.get('next', 'home')
             return redirect(next_url)
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+
+    show_modal = request.session.pop('show_modal', False)
+    return render(request, 'login.html', {'form': form, 'show_modal': show_modal})
 
 
 @login_required
@@ -115,8 +126,6 @@ def goal_detail(request, pk):
             contribution.goal = goal
             contribution.user = request.user
             contribution.save()
-            goal.total_contributed += contribution.amount
-            goal.save()
             return redirect('goal_detail', pk=goal.pk)
     else:
         form = ContributionForm()
@@ -131,23 +140,42 @@ def progress_view(request):
 def success(request):
     return render(request, 'success.html')
 
-def goal_summary(request):
-    goals = SavingsGoal.objects.all()
-    insights = []
+@login_required
+def input_financial_data(request):
+    if request.method == 'POST':
+        form = FinancialDataForm(request.POST)
+        if form.is_valid():
+            # Save financial data to the user's profile or database
+            # Assuming you have a user profile model to save this data
+            user_profile = request.user.profile
+            user_profile.income = form.cleaned_data['income']
+            user_profile.expenses = form.cleaned_data['expenses']
+            user_profile.savings = form.cleaned_data['savings']
+            user_profile.save()
+            return redirect('financial_insights')
+    else:
+        form = FinancialDataForm()
+    return render(request, 'input_financial_data.html', {'form': form})
 
-    for goal in goals:
-        # Fetch insights based on the latest data
-        insights.append({
-            'goal': goal,
-            'progress': goal.progress,
-            'recommendations': generate_recommendations(goal)
-        })
+def financial_insights(request):
+    # Retrieve financial data and generate insights
+    user_profile = request.user.profile
+    insights = calculate_insights(user_profile)
+    tips = generate_tips(user_profile)
+    return render(request, 'financial_insights.html', {'insights': insights, 'tips': tips})
 
-    return render(request, 'goal_summary.html', {'insights': insights})
+def calculate_insights(user_profile):
+    # Placeholder function to calculate insights
+    return {
+        'average_income': user_profile.income,
+        'average_expenses': user_profile.expenses,
+        'average_savings': user_profile.savings,
+        'savings_comparison': user_profile.savings - (user_profile.income - user_profile.expenses)
+    }
 
-def generate_recommendations(goal):
-    recommendations = []
-    # Example recommendations
-    if goal.progress < 50:
-        recommendations.append('You should increase your monthly contributions to reach your goal.')
-    return recommendations
+def generate_tips(user_profile):
+    # Placeholder function to generate tips
+    return [
+        "Consider reducing your expenses by 10% to increase savings.",
+        "Track your spending more closely."
+    ]
