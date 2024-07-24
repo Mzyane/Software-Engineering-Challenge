@@ -15,6 +15,8 @@ class SavingsGoal(models.Model):
     @property
     def remaining_amount(self):
         return self.target_amount - self.total_contributed
+    def __str__(self):
+        return self.name
 
 class Contribution(models.Model):
     goal = models.ForeignKey(SavingsGoal, on_delete=models.CASCADE)

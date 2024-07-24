@@ -5,12 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm, SavingsGoalForm, ContributionForm
 from .models import SavingsGoal, Contribution
+from .utils import generate_recommendations
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Contribution, SavingsGoal
 import datetime
-from .models import SavingsInsights
-from .savings_insights import calculate_savings_insights
-
+from django.conf import settings
 
 
 def home(request):
@@ -53,6 +52,7 @@ def create_goal(request):
     else:
         form = SavingsGoalForm()
     return render(request, 'create_goal.html', {'form': form})
+
 
 @login_required
 def contribute(request):
