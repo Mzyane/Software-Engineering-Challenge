@@ -11,6 +11,8 @@ class SavingsGoal(models.Model):
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     total_contributed = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     target_date = models.DateField()
+    status = models.CharField(max_length=50, choices=(('ongoing', 'Ongoing'), ('completed', 'Completed')))
+
 
     @property
     def remaining_amount(self):
@@ -21,6 +23,8 @@ class Contribution(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
+    income = models.DecimalField(max_digits=10, decimal_places=2)  # Assuming income is recorded per contribution
+
 
     def __str__(self):
         return f"{self.user.username} contributed {self.amount} to {self.goal.name}"
@@ -38,3 +42,4 @@ class SavingsContribution(models.Model):
     goal = models.ForeignKey('SavingsGoal', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
+

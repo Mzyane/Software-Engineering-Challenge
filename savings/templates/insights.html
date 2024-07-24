@@ -1,0 +1,48 @@
+<!-- insights.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights and Tips</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'create_goal' %}">Create Goal</a></li>
+                <li><a href="{% url 'contribute' %}">Contribute</a></li>
+                <li><a href="{% url 'progress' %}">Progress</a></li>
+                <li><a href="{% url 'insights' %}">Insights</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Insights and Tips</h1>
+            <h2>Insights</h2>
+            <ul>
+                {% for insight in insights %}
+                    <li>{{ insight }}</li>
+                {% endfor %}
+            </ul>
+            <h2>Tips</h2>
+            <ul>
+                {% for tip in tips %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SaveSmart. All rights reserved.</p>
+    </footer>
+</body>
+</html>
