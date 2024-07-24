@@ -15,6 +15,14 @@ class SavingsGoal(models.Model):
     @property
     def remaining_amount(self):
         return self.target_amount - self.total_contributed
+    def calculate_total_contributed(self):
+        from django.db.models import Sum
+        total_contributed = Contribution.objects.filter(goal=self).aggregate(total_amount=Sum('amount'))['total_amount'] or 0
+        return total_contributed
+
+    def save(self, *args, **kwargs):
+        self.total_contributed = self.calculate_total_contributed()
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
 
