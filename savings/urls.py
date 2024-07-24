@@ -2,8 +2,6 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import progress_view, create_goal, login_view, register, goal_detail, update_goal,delete_goal
-from .views import insights_view
 
 app_name = 'savings'
 
@@ -17,7 +15,6 @@ urlpatterns = [
     path('update-goal/<int:pk>/', views.update_goal, name='update_goal'),
     path('delete-goal/<int:pk>/', views.delete_goal, name='delete_goal'),
     path('success/', views.success, name='success'),
-    path('insights/', insights_view, name='insights'),
 
 
 

@@ -5,12 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm, SavingsGoalForm, ContributionForm
 from .models import SavingsGoal, Contribution
-from .utils import generate_recommendations
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Goal, Contribution, SavingsGoal
+from .models import Contribution, SavingsGoal
 import datetime
-from django.conf import settings
-import pandas as pd
+from .models import SavingsInsights
+from .savings_insights import calculate_savings_insights
 
 
 
@@ -54,49 +53,6 @@ def create_goal(request):
     else:
         form = SavingsGoalForm()
     return render(request, 'create_goal.html', {'form': form})
-
-@login_required
-def insights_view(request):
-    user = request.user
-    contributions = Contribution.objects.filter(user=user).values('amount', 'income', 'date', 'goal__status')
-    df = pd.DataFrame(list(contributions))
-
-    if df.empty:
-        insights = ["No data available for insights."]
-        tips = []
-    else:
-        # Detailed Insights and Tips Algorithm
-        insights, tips = analyze_savings_behavior(df)
-
-    return render(request, 'insights.html', {'insights': insights, 'tips': tips})
-
-def analyze_savings_behavior(df):
-    insights = []
-    tips = []
-
-    df['savings_rate'] = df['amount'] / df['income']
-    avg_savings_rate = df['savings_rate'].mean()
-
-    if avg_savings_rate < 0.2:
-        insights.append("Your average savings rate is below the recommended rate.")
-        tips.append("Try to save at least 20% of your income each month.")
-
-    completed_goals = df[df['goal__status'] == 'completed']
-    goal_completion_rate = len(completed_goals) / len(df)
-
-    if goal_completion_rate < 0.8:
-        insights.append("Your goal completion rate is below the recommended level.")
-        tips.append("Set smaller, more achievable goals to improve your completion rate.")
-
-    df['contribution_month'] = df['date'].apply(lambda x: x.strftime('%Y-%m'))
-    monthly_contributions = df.groupby('contribution_month')['amount'].sum()
-
-    if monthly_contributions.std() > 0.1 * monthly_contributions.mean():
-        insights.append("Your savings contributions are irregular.")
-        tips.append("Set up automatic transfers to ensure regular savings contributions.")
-
-    return insights, tips
-
 
 @login_required
 def contribute(request):
@@ -175,3 +131,24 @@ def progress_view(request):
 
 def success(request):
     return render(request, 'success.html')
+
+def goal_summary(request):
+    goals = SavingsGoal.objects.all()
+    insights = []
+
+    for goal in goals:
+        # Fetch insights based on the latest data
+        insights.append({
+            'goal': goal,
+            'progress': goal.progress,
+            'recommendations': generate_recommendations(goal)
+        })
+
+    return render(request, 'goal_summary.html', {'insights': insights})
+
+def generate_recommendations(goal):
+    recommendations = []
+    # Example recommendations
+    if goal.progress < 50:
+        recommendations.append('You should increase your monthly contributions to reach your goal.')
+    return recommendations

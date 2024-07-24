@@ -11,8 +11,6 @@ class SavingsGoal(models.Model):
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     total_contributed = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     target_date = models.DateField()
-    status = models.CharField(max_length=50, choices=(('ongoing', 'Ongoing'), ('completed', 'Completed')))
-
 
     @property
     def remaining_amount(self):
@@ -23,19 +21,9 @@ class Contribution(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
-    income = models.DecimalField(max_digits=10, decimal_places=2)  # Assuming income is recorded per contribution
-
 
     def __str__(self):
         return f"{self.user.username} contributed {self.amount} to {self.goal.name}"
-
-class Goal(models.Model):
-    name = models.CharField(max_length=100)
-    target_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    current_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 
 class SavingsContribution(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -43,3 +31,11 @@ class SavingsContribution(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
 
+class SavingsInsights(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    total_savings = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    average_contribution = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    contribution_frequency = models.DurationField()
+    goal_progress = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    tips = models.TextField(blank=True)
+    updated_at = models.DateTimeField(auto_now=True)

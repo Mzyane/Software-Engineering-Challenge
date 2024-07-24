@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Savings Goals Summary</h1>
+  {% for insight in insights %}
+    <div>
+      <h2>Goal: {{ insight.goal.id }}</h2>
+      <p>Progress: {{ insight.progress }}%</p>
+      <ul>
+        {% for recommendation in insight.recommendations %}
+          <li>{{ recommendation }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -14,8 +14,7 @@ class UserRegisterForm(UserCreationForm):
 class SavingsGoalForm(forms.ModelForm):
     class Meta:
         model = SavingsGoal
-        fields = ['name','target_amount', 'target_date']
-
+        fields = ['name', 'target_amount', 'target_date']
 
 
 class ContributionForm(forms.ModelForm):
@@ -23,6 +22,6 @@ class ContributionForm(forms.ModelForm):
         model = Contribution
         fields = ['goal', 'amount']
         widgets = {
-            'goal': forms.Select(),  
+            'goal': forms.Select(),
             'amount': forms.NumberInput(attrs={'type': 'number'}),
         }
