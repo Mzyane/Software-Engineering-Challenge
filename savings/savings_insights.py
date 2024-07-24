@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.utils.timezone import make_aware
 from .models import Contribution, SavingsGoal, SavingsInsights, timedelta
+from savings import models
 
 def calculate_savings_insights(user):
     # Fetch user's contributions and goals

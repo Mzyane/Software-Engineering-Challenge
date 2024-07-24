@@ -1,2 +1,48 @@
-git add .
-git commit -m "Calculate and display total contributions for each savings goal"
+{% extends 'base.html' %}
+
+{% block title %}Track Progress{% endblock %}
+
+{% block content %}
+<h1>Your Savings Goals Progress</h1>
+
+{% if goals %}
+    <p>Goals found: {{ goals.count }}</p>
+{% else %}
+    <p>No goals found.</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Target Amount</th>
+            <th>Total Contributed</th>
+            <th>Target Date</th>
+            <th>Remaining Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if goals %}
+            {% for goal in goals %}
+                <tr>
+                    <td><a href="{% url 'goal_detail' pk=goal.pk %}">{{ goal.name }}</a></td>
+                    <td>${{ goal.target_amount|floatformat:2 }}</td>
+                    <td>${{ goal.total_contributed|floatformat:2 }}</td>
+                    <td>{{ goal.target_date }}</td>
+                    <td>${{ goal.remaining_amount|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'goal_detail' pk=goal.pk %}" title="Details"><i class="fas fa-info-circle"></i></a> |
+                        <a href="{% url 'update_goal' pk=goal.pk %}" title="Update"><i class="fas fa-edit"></i></a> |
+                        <a href="{% url 'delete_goal' pk=goal.pk %}" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">You have no savings goals set.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}
